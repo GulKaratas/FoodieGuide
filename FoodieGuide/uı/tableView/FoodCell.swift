@@ -7,13 +7,19 @@
 
 import UIKit
 
+
 class FoodCell: UICollectionViewCell {
    
     @IBOutlet weak var foodImageView: UIImageView!
     
     @IBOutlet weak var foodLabel: UILabel!
+
+    
+    @IBOutlet weak var priceLabel: UILabel!
     
     @IBAction func plusButtonClicked(_ sender: Any) {
+       
+        
     }
     
     @IBAction func likeButtonClicked(_ sender: Any) {

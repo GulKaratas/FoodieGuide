@@ -6,8 +6,19 @@
 //
 
 import Foundation
+import RxSwift
+import Alamofire
 
 class FoodDeoRepository {
     
+    var foodList = BehaviorSubject<[Food]>(value: [Food]())
     
-}
+    func foodInstall() {
+
+            }
+                
+            
+    }
+    
+
+

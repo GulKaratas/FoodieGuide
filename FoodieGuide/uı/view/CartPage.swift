@@ -9,6 +9,7 @@ import UIKit
 
 class CartPage: UIViewController {
 
+    @IBOutlet weak var foodCartTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		55466DB12CB6E31100F467F5 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 55466DB02CB6E31100F467F5 /* Lottie */; };
+		555625402CB8296B004C0AA6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5556253F2CB8296B004C0AA6 /* Kingfisher */; };
+		555625432CB82A1A004C0AA6 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 555625422CB82A1A004C0AA6 /* Alamofire */; };
+		5556254A2CB82C99004C0AA6 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 555625492CB82C99004C0AA6 /* RxSwift */; };
 		5563DE172CB6F44B0019BEB3 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5563DE162CB6F44B0019BEB3 /* FirebaseAnalytics */; };
 		5563DE192CB6F44B0019BEB3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 5563DE182CB6F44B0019BEB3 /* FirebaseAuth */; };
 		5563DE1B2CB6F44B0019BEB3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5563DE1A2CB6F44B0019BEB3 /* FirebaseFirestore */; };
@@ -44,10 +47,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				555625402CB8296B004C0AA6 /* Kingfisher in Frameworks */,
+				555625432CB82A1A004C0AA6 /* Alamofire in Frameworks */,
 				5563DE172CB6F44B0019BEB3 /* FirebaseAnalytics in Frameworks */,
 				5563DE1B2CB6F44B0019BEB3 /* FirebaseFirestore in Frameworks */,
 				5563DE192CB6F44B0019BEB3 /* FirebaseAuth in Frameworks */,
 				5563DE1D2CB6F44B0019BEB3 /* FirebaseStorage in Frameworks */,
+				5556254A2CB82C99004C0AA6 /* RxSwift in Frameworks */,
 				55466DB12CB6E31100F467F5 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +102,9 @@
 				5563DE182CB6F44B0019BEB3 /* FirebaseAuth */,
 				5563DE1A2CB6F44B0019BEB3 /* FirebaseFirestore */,
 				5563DE1C2CB6F44B0019BEB3 /* FirebaseStorage */,
+				5556253F2CB8296B004C0AA6 /* Kingfisher */,
+				555625422CB82A1A004C0AA6 /* Alamofire */,
+				555625492CB82C99004C0AA6 /* RxSwift */,
 			);
 			productName = FoodieGuide;
 			productReference = 55466D752CB6B3BC00F467F5 /* FoodieGuide.app */;
@@ -128,6 +137,9 @@
 			packageReferences = (
 				55466DAF2CB6DC9600F467F5 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				5563DE152CB6F44B0019BEB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				5556253E2CB8296B004C0AA6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				555625412CB82A1A004C0AA6 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				555625482CB82C99004C0AA6 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 55466D762CB6B3BC00F467F5 /* Products */;
@@ -365,6 +377,30 @@
 				minimumVersion = 4.5.0;
 			};
 		};
+		5556253E2CB8296B004C0AA6 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.3;
+			};
+		};
+		555625412CB82A1A004C0AA6 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
+		555625482CB82C99004C0AA6 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.8.0;
+			};
+		};
 		5563DE152CB6F44B0019BEB3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -380,6 +416,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 55466DAF2CB6DC9600F467F5 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
+		};
+		5556253F2CB8296B004C0AA6 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5556253E2CB8296B004C0AA6 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		555625422CB82A1A004C0AA6 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 555625412CB82A1A004C0AA6 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		555625492CB82C99004C0AA6 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 555625482CB82C99004C0AA6 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 		5563DE162CB6F44B0019BEB3 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
