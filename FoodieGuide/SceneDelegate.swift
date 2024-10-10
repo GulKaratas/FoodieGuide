@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -14,8 +16,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
        
-        guard let _ = (scene as? UIWindowScene) else { return }
+        let currentUser = Auth.auth().currentUser
         
+        if currentUser != nil {
+           let board = UIStoryboard(name: "Main", bundle: nil)
+            let tabBar = board.instantiateViewController(identifier: "tabBar") as! UITabBarController
+            window?.rootViewController = tabBar
+        }
+        
+        guard (scene is UIWindowScene) else { return }
+        
+
         
     }
 

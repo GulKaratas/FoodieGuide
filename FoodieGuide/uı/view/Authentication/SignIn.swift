@@ -16,7 +16,9 @@ class SignIn: UIViewController {
     override func viewDidLoad() {
       
         super.viewDidLoad()
-
+        
+        navigationItem.leftBarButtonItem = nil
+        
        
     }
     
