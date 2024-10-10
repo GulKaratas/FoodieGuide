@@ -6,24 +6,40 @@
 //
 
 import UIKit
+import FirebaseCore
+import FirebaseAuth
 
 class SignIn: UIViewController {
 
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var mailTextField: UITextField!
     override func viewDidLoad() {
+      
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+       
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func signInClicked(_ sender: Any) {
+        if mailTextField.text != "" && passwordTextField.text != "" {
+            Auth.auth().signIn(withEmail: mailTextField.text!, password: passwordTextField.text!) {  (auth, error) in
+                if error != nil {
+                    self.alertMessage(title: "Hata", message: error?.localizedDescription ?? "error")
+                }else {
+                    self.performSegue(withIdentifier: "toMainPage", sender: nil)
+                }
+            }
+        }else {
+            alertMessage(title: "Hata", message: "Boş bırakılan alanları doldurunuz")
+        }
     }
-    */
-
+    
+    func alertMessage(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Tamam", style: .destructive)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
