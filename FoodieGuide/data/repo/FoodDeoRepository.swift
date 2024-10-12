@@ -14,7 +14,9 @@ class FoodDeoRepository {
     var foodList = BehaviorSubject<[Food]>(value: [Food]())
     
     func foodInstall() {
-
+        
+        
+        
             }
                 
             

@@ -1,20 +1,19 @@
-//
-//  CartPage.swift
-//  FoodieGuide
-//
-//  Created by Gül Karataş on 10.10.2024.
-//
-
 import UIKit
 
-class CartPage: UIViewController {
+class CartPage: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var foodCartTableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
         view.backgroundColor = UIColor(named: "BackgroundColor")
+        
+        foodCartTableView.delegate = self
+        foodCartTableView.dataSource = self
+        
+      
+
         navigationTitle()
     }
     
@@ -30,6 +29,27 @@ class CartPage: UIViewController {
         navigationController?.navigationBar.compactAppearance = color
         navigationController?.navigationBar.scrollEdgeAppearance = color
     }
-   
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        foodCartTableView.reloadData()
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Shared.shared.items.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cartCell", for: indexPath) as! CartCell
+        
+        let food = Shared.shared.items[indexPath.row]
+        cell.nameLabel.text = food.name
+        cell.priceLabel.text = "\(food.price!) TL"
+        cell.foodImageView.image = UIImage(named: food.image!)
+        cell.backgroundColor = UIColor(white: 0.95, alpha: 2)
+        cell.cellBackground.layer.cornerRadius = 20.0
+        return cell
+    }
 
 }

@@ -32,17 +32,17 @@ class FoodPage: UIViewController {
         
         let design = UICollectionViewFlowLayout()
 
-        design.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        design.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
 
         
-        design.minimumInteritemSpacing = 1
+        design.minimumInteritemSpacing = 10
         design.minimumLineSpacing = 10
 
        
         let screenWidth = UIScreen.main.bounds.width
 
        
-        let itemWidth = (screenWidth - 30) / 2.02
+        let itemWidth = (screenWidth - 50) / 3
 
         design.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.6)
         foodCollectionView.collectionViewLayout = design
@@ -102,7 +102,9 @@ class FoodPage: UIViewController {
     }
 }
 
-extension FoodPage: UICollectionViewDataSource, UICollectionViewDelegate {
+extension FoodPage: UICollectionViewDataSource, UICollectionViewDelegate , CellProtocol{
+   
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return foodList.count
     }
@@ -120,8 +122,20 @@ extension FoodPage: UICollectionViewDataSource, UICollectionViewDelegate {
         cell.layer.borderWidth = 0.5
         cell.layer.cornerRadius = 10.0
         
+        cell.cellProtocol = self
+        cell.indexPath = indexPath
+        
         return cell
     }
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let food = foodList[indexPath.row]
+        performSegue(withIdentifier: "toDetail", sender: food)
+        
+    }
+    func addtoCart(indexPath: IndexPath) {
+        let food = foodList[indexPath.row]
+        Shared.shared.items.append(food)
+        
+    }
     
 }
