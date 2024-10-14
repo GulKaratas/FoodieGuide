@@ -76,23 +76,32 @@ class CartPage: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cartCell", for: indexPath) as! CartCell
-        
-        // Get the corresponding cart item
-        let cartItem = Shared.shared.item[indexPath.row]
-        
-        // Update the UI labels in the cell
-        cell.nameLabel.text = cartItem.name
-        cell.priceLabel.text = "\(cartItem.price) TL"
-        cell.adetLabel.text = " Adet : \(cartItem.quantity)"  // Display the quantity
-        
-        if let imageName = cartItem.image {
-            cell.foodImageView.image = UIImage(named: imageName)
-        }
-        
-        cell.backgroundColor = UIColor(white: 0.95, alpha: 2)
-        cell.cellBackground.layer.cornerRadius = 20.0
-        
-        return cell
+
+           // Sepet öğesini al
+           let cartItem = Shared.shared.item[indexPath.row]
+
+           // UI etiketlerini güncelle
+           cell.nameLabel.text = cartItem.name
+
+           // Fiyatı hesapla ve güncelle
+           let totalPrice = cartItem.price * Double(cartItem.quantity) // Toplam fiyat
+           cell.priceLabel.text = "\(totalPrice) TL"
+           
+           cell.adetLabel.text = " Adet : \(cartItem.quantity)"
+
+           // Resmi yükle
+           if let imageName = cartItem.image {
+               if let url = URL(string: "http://kasimadalan.pe.hu/yemekler/resimler/\(imageName)") {
+                   cell.foodImageView.kf.setImage(with: url) // Kingfisher kullanarak resmi yükleme
+               } else {
+                   cell.foodImageView.image = nil // Eğer URL geçersizse resmi temizle
+               }
+           }
+
+           cell.backgroundColor = UIColor(white: 0.95, alpha: 2)
+           cell.cellBackground.layer.cornerRadius = 20.0
+
+           return cell
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

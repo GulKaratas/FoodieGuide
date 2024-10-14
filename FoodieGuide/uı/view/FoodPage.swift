@@ -14,24 +14,23 @@ class FoodPage: UIViewController {
 
         foodCollectionView.delegate = self
         foodCollectionView.dataSource = self
+        
+        if searchBar == nil {
+               print("searchBar is nil!")
+           } else {
+               searchBar.delegate = self
+           }
 
         view.backgroundColor = UIColor(named: "BackgroundColor")
         
         customizeTabBar()
         navigationTitle()
 
-        // Örnek veri ekleme
-        let f = Food(id:1 ,name: "Pizza", image: "ottoman", price: 100)
-        let f1 = Food(id:2 ,name: "Burger", image: "parfüm", price: 200)
-        let f3 = Food(id:3 ,name: "Pasta", image: "saat", price: 300)
-        let f4 = Food(id:4 ,name: "Salad", image: "telefon", price: 400)
-
-        foodList.append(f)
-        foodList.append(f1)
-        foodList.append(f3)
-        foodList.append(f4)
-
-        // Koleksiyon görünümünün tasarımını ayarlama
+        _ = viewModel.foodList.subscribe(onNext: { Food in
+            self.foodList = Food
+            self.foodCollectionView.reloadData()
+        })
+        
         let design = UICollectionViewFlowLayout()
         design.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         design.minimumInteritemSpacing = 1
@@ -102,15 +101,21 @@ extension FoodPage: UICollectionViewDataSource, UICollectionViewDelegate, CellPr
         let food = foodList[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "foodCell", for: indexPath) as! FoodCell
 
-        cell.foodImageView.image = UIImage(named: food.image!)
-        cell.foodLabel.text = food.name
-        cell.priceLabel.text = "\(food.price!)"
+        
+        cell.foodLabel.text = food.yemek_adi
+        cell.priceLabel.text = " Fiyatı : \(food.yemek_fiyat!)"
 
         // Hücre için kenarlık ve köşe yuvarlama
         cell.layer.borderColor = UIColor.gray.cgColor
         cell.layer.borderWidth = 0.5
         cell.layer.cornerRadius = 10.0
 
+        if let url = URL(string: "http://kasimadalan.pe.hu/yemekler/resimler/\(food.yemek_resim_adi!)") {
+            DispatchQueue.main.async {
+                cell.foodImageView.kf.setImage(with: url)
+            }
+        }
+        
         // Resime tıklanabilirlik ekleme
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
         cell.foodImageView.isUserInteractionEnabled = true
@@ -131,41 +136,45 @@ extension FoodPage: UICollectionViewDataSource, UICollectionViewDelegate, CellPr
         performSegue(withIdentifier: "toDetail", sender: food)
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let food = foodList[indexPath.row]
-        performSegue(withIdentifier: "toDetail", sender: food)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toDetail" {
-            if let destinationVC = segue.destination as? Details {
-                if let selectedFood = sender as? Food {
-                    destinationVC.foodList = selectedFood
-                    
-                }
-            }
-        }
-    }
-
+   
     func addtoCart(indexPath: IndexPath) {
         let food = foodList[indexPath.row]
-
-           // Check if the item already exists in the cart
-           if let existingItem = Shared.shared.item.first(where: { $0.name == food.name }) {
-               // If the item exists, increase the quantity
-               existingItem.quantity += 1
-           } else {
-               // If the item is not in the cart, add it with a quantity of 1
-               let price = Double(food.price ?? 0)  // Provide a default value of 0 if the price is nil
-                  
-                  // If the item is not in the cart, add it with a quantity of 1
-                  let newItem = Shared.CartItem(name: food.name ?? "error", price: price, quantity: 1, image: food.image)
-                  Shared.shared.item.append(newItem)
+            
+            // Check if the item already exists in the cart
+            if let existingItem = Shared.shared.item.first(where: { $0.name == food.yemek_adi }) {
+                // If the item exists, increase the quantity
+                existingItem.quantity += 1
+            } else {
+                // Convert the price from String to Double, provide a default value of 0.0 if conversion fails
+                let price = Double(food.yemek_fiyat ?? "0") ?? 0.0
+                
+                // If the item is not in the cart, add it with a quantity of 1
+                let newItem = Shared.CartItem(name: food.yemek_adi ?? "error", price: price, quantity: 1, image: food.yemek_resim_adi ?? "default_image")
+                Shared.shared.item.append(newItem)
            }
 
            
-           print("\(food.name) added to cart. Current quantity: \(Shared.shared.item.first(where: { $0.name == food.name })?.quantity ?? 0)")
+        print("\(food.yemek_adi) added to cart. Current quantity: \(Shared.shared.item.first(where: { $0.name == food.yemek_adi })?.quantity ?? 0)")
         
         
+    }
+}
+extension FoodPage: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        // Arama çubuğu boşsa tüm yemekleri göster
+        if searchText.isEmpty {
+            viewModel.foodList.subscribe(onNext: { Food in
+                self.foodList = Food
+                self.foodCollectionView.reloadData()
+            }).dispose() // Önceki abonelikleri temizle
+        } else {
+            // Arama çubuğunda yazılan metne göre filtrele
+            let filteredFoodList = foodList.filter { food in
+                // Büyük/küçük harfe duyarlı arama
+                return food.yemek_adi?.contains(searchText) == true
+            }
+            self.foodList = filteredFoodList
+            self.foodCollectionView.reloadData()
+        }
     }
 }

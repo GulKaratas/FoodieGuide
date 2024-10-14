@@ -7,21 +7,19 @@
 
 import Foundation
 
-class Food {
-    
-    var id: Int?
-    var name: String?
-    var image: String?
-    var price: Int?
-    
-    init(){
-        
+class Food: Codable {
+    var yemek_id: String?   // JSON'daki "yemek_id" ile eşleşiyor
+    var yemek_adi: String?  // JSON'daki "yemek_adi" ile eşleşiyor
+    var yemek_resim_adi: String?  // JSON'daki "yemek_resim_adi" ile eşleşiyor
+    var yemek_fiyat: String?  // JSON'daki "yemek_fiyat" String olarak geliyor
+
+    init() {
     }
-    init(id: Int, name: String , image: String, price: Int) {
-        self.id = id
-        self.name = name
-        self.image = image
-        self.price = price
+
+    init(yemek_id: String, yemek_adi: String, yemek_resim_adi: String, yemek_fiyat: String) {
+        self.yemek_id = yemek_id
+        self.yemek_adi = yemek_adi
+        self.yemek_resim_adi = yemek_resim_adi
+        self.yemek_fiyat = yemek_fiyat
     }
-    
 }

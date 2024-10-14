@@ -1,15 +1,14 @@
 //
-//  FoodPageViewModel.swift
+//  DetailsViewModel.swift
 //  FoodieGuide
 //
-//  Created by Gül Karataş on 10.10.2024.
+//  Created by Gül Karataş on 15.10.2024.
 //
 
 import Foundation
 import RxSwift
 
-class FoodPageViewModel {
-
+class DetailsViewModel {
     var frepo = FoodDeoRepository()
     var foodList = BehaviorSubject<[Food]>(value: [Food]())
     
