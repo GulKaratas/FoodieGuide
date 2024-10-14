@@ -13,13 +13,18 @@ class FavoritesPage: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.hidesBackButton = true
+        
         view.backgroundColor = UIColor(named: "BackgroundColor")
         navigationTitle()
     }
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          navigationItem.hidesBackButton = true // Geri butonunu gizle
+          
+      }
     
     func navigationTitle() {
-        self.navigationItem.title = "Foodie"
+        self.navigationItem.title = "Favorites"
         let color = UINavigationBarAppearance()
 
         color.backgroundColor = UIColor(named: "TextColor")

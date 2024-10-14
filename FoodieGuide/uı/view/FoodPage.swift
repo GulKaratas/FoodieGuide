@@ -16,7 +16,7 @@ class FoodPage: UIViewController {
         foodCollectionView.dataSource = self
 
         view.backgroundColor = UIColor(named: "BackgroundColor")
-        navigationItem.hidesBackButton = true
+        
         customizeTabBar()
         navigationTitle()
 
@@ -43,7 +43,12 @@ class FoodPage: UIViewController {
         design.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.6)
         foodCollectionView.collectionViewLayout = design
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          navigationItem.hidesBackButton = true // Geri butonunu gizle
+          
+      }
     func navigationTitle() {
         self.navigationItem.title = "Foodie"
         let color = UINavigationBarAppearance()
@@ -136,6 +141,7 @@ extension FoodPage: UICollectionViewDataSource, UICollectionViewDelegate, CellPr
             if let destinationVC = segue.destination as? Details {
                 if let selectedFood = sender as? Food {
                     destinationVC.foodList = selectedFood
+                    
                 }
             }
         }
@@ -143,6 +149,23 @@ extension FoodPage: UICollectionViewDataSource, UICollectionViewDelegate, CellPr
 
     func addtoCart(indexPath: IndexPath) {
         let food = foodList[indexPath.row]
-        Shared.shared.items.append(food)
+
+           // Check if the item already exists in the cart
+           if let existingItem = Shared.shared.item.first(where: { $0.name == food.name }) {
+               // If the item exists, increase the quantity
+               existingItem.quantity += 1
+           } else {
+               // If the item is not in the cart, add it with a quantity of 1
+               let price = Double(food.price ?? 0)  // Provide a default value of 0 if the price is nil
+                  
+                  // If the item is not in the cart, add it with a quantity of 1
+                  let newItem = Shared.CartItem(name: food.name ?? "error", price: price, quantity: 1, image: food.image)
+                  Shared.shared.item.append(newItem)
+           }
+
+           
+           print("\(food.name) added to cart. Current quantity: \(Shared.shared.item.first(where: { $0.name == food.name })?.quantity ?? 0)")
+        
+        
     }
 }

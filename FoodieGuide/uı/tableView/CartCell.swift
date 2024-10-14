@@ -9,6 +9,7 @@ import UIKit
 
 class CartCell: UITableViewCell {
 
+    @IBOutlet weak var adetLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var foodImageView: UIImageView!
@@ -26,6 +27,5 @@ class CartCell: UITableViewCell {
        
     }
 
-    @IBAction func deletButtonClicked(_ sender: Any) {
-    }
+   
 }
