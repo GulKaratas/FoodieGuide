@@ -1,1 +1,1 @@
-![Açıklama](.//Users/gulkaratas/Desktop/rFoodieGuide.png)
+![Açıklama](.//Users/gulkaratas/Desktop/FoodieGuide.png)
