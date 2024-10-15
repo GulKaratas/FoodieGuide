@@ -8,10 +8,10 @@
 import Foundation
 
 class Food: Codable {
-    var yemek_id: String?   // JSON'daki "yemek_id" ile eşleşiyor
-    var yemek_adi: String?  // JSON'daki "yemek_adi" ile eşleşiyor
-    var yemek_resim_adi: String?  // JSON'daki "yemek_resim_adi" ile eşleşiyor
-    var yemek_fiyat: String?  // JSON'daki "yemek_fiyat" String olarak geliyor
+    var yemek_id: String?   
+    var yemek_adi: String?
+    var yemek_resim_adi: String?
+    var yemek_fiyat: String?
 
     init() {
     }

@@ -12,20 +12,17 @@ class CartPage: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
         foodCartTableView.delegate = self
         foodCartTableView.dataSource = self
+        foodCartTableView.separatorStyle = .none 
         
-        setupLogoutButton() // Call the function to set up the logout button
+        setupLogoutButton()
         navigationTitle()
-        
-        // Sepet iconunu güncelle
         updateBadgeValue()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.hidesBackButton = true // Geri butonunu gizle
-        foodCartTableView.reloadData() // Tablo verilerini güncelle
-        
-        // Sepet iconunu güncelle
+        navigationItem.hidesBackButton = true
+        foodCartTableView.reloadData()
         updateBadgeValue()
     }
 
@@ -42,87 +39,76 @@ class CartPage: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func setupLogoutButton() {
         let logoutButton = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutButtonTapped))
-        logoutButton.tintColor = UIColor.white  // Set the button color
+        logoutButton.tintColor = UIColor.white
         self.navigationItem.rightBarButtonItem = logoutButton
     }
     
     @objc func logoutButtonTapped() {
         do {
-            try Auth.auth().signOut() // Firebase'den çıkış yap
-            
-            // Ana sayfaya yönlendir
+            try Auth.auth().signOut()
             if let homeVC = storyboard?.instantiateViewController(withIdentifier: "Home") {
                 homeVC.modalPresentationStyle = .fullScreen
                 present(homeVC, animated: true, completion: nil)
             }
-            
         } catch {
-            print("Çıkış işlemi başarısız: \(error.localizedDescription)")
+            print("Logout failed: \(error.localizedDescription)")
         }
     }
 
     func updateBadgeValue() {
-        let totalItems = Shared.shared.item.reduce(0) { $0 + $1.quantity } // Toplam ürün sayısını hesapla
+        let totalItems = Shared.shared.item.reduce(0) { $0 + $1.quantity }
         if let tabBarItems = tabBarController?.tabBar.items {
-            let cartItem = tabBarItems[2] // İlk tab bar item'ı (sepet)
-            cartItem.badgeValue = totalItems > 0 ? "\(totalItems)" : nil // Eğer sepet doluysa rozet değerini ayarla
+            let cartItem = tabBarItems[2]
+            cartItem.badgeValue = totalItems > 0 ? "\(totalItems)" : nil
         }
     }
     
     // Table View Data Source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Shared.shared.item.count  // Number of items in the cart
+        return Shared.shared.item.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cartCell", for: indexPath) as! CartCell
 
-           // Sepet öğesini al
-           let cartItem = Shared.shared.item[indexPath.row]
+        let cartItem = Shared.shared.item[indexPath.row]
+        cell.nameLabel.text = cartItem.name
 
-           // UI etiketlerini güncelle
-           cell.nameLabel.text = cartItem.name
+        let totalPrice = cartItem.price * Double(cartItem.quantity)
+        cell.priceLabel.text = "\(totalPrice) TL"
+        cell.adetLabel.text = "Adet: \(cartItem.quantity)"
 
-           // Fiyatı hesapla ve güncelle
-           let totalPrice = cartItem.price * Double(cartItem.quantity) // Toplam fiyat
-           cell.priceLabel.text = "\(totalPrice) TL"
-           
-           cell.adetLabel.text = " Adet : \(cartItem.quantity)"
-
-           // Resmi yükle
-           if let imageName = cartItem.image {
-               if let url = URL(string: "http://kasimadalan.pe.hu/yemekler/resimler/\(imageName)") {
-                   cell.foodImageView.kf.setImage(with: url) // Kingfisher kullanarak resmi yükleme
-               } else {
-                   cell.foodImageView.image = nil // Eğer URL geçersizse resmi temizle
-               }
-           }
-
-           cell.backgroundColor = UIColor(white: 0.95, alpha: 2)
-           cell.cellBackground.layer.cornerRadius = 20.0
-
-           return cell
+        // Set the product image with rounded corners
+        if let imageName = cartItem.image, let url = URL(string: "http://kasimadalan.pe.hu/yemekler/resimler/\(imageName)") {
+            cell.foodImageView.kf.setImage(with: url)
+        } else {
+            cell.foodImageView.image = nil
+        }
+        
+        // Styling each cell to appear like a card
+        cell.foodImageView.layer.cornerRadius = 10
+        cell.cellBackground.layer.cornerRadius = 20
+        cell.cellBackground.layer.shadowColor = UIColor.black.cgColor
+        cell.cellBackground.layer.shadowOffset = CGSize(width: 0, height: 2)
+        cell.cellBackground.layer.shadowOpacity = 0.1
+        cell.cellBackground.layer.shadowRadius = 4
+        cell.cellBackground.clipsToBounds = false
+        
+        cell.backgroundColor = UIColor(white: 0.95, alpha: 1)
+        
+        return cell
     }
-    
+
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler) in
-                  // Remove item from shared item array
-                  let itemToRemove = Shared.shared.item[indexPath.row]
-                  Shared.shared.item.remove(at: indexPath.row)
-                  
-                  // Update badge value
-                  self.updateBadgeValue()
-                  
-                  // Update table view
-                  tableView.deleteRows(at: [indexPath], with: .automatic)
-                  completionHandler(true) // Indicate that the action was handled
-              }
-              
-              // Customize the delete action's appearance
-              deleteAction.backgroundColor = .red
-              
-              // Create and return swipe actions configuration
-              let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-              return configuration
-          }
-      }
+            Shared.shared.item.remove(at: indexPath.row)
+            self.updateBadgeValue()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            completionHandler(true)
+        }
+        
+        deleteAction.backgroundColor = .red
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+}

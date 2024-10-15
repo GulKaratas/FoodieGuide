@@ -8,6 +8,6 @@
 import Foundation
 
 class FoodCevap: Codable {
-    var yemekler: [Food]?  // JSON'da "yemekler" ile eşleşiyor
-    var success: Int?      // JSON'daki "success" ile eşleşiyor
+    var yemekler: [Food]?  
+    var success: Int?
 }

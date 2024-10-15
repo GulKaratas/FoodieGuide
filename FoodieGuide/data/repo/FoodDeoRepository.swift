@@ -18,7 +18,7 @@ class FoodDeoRepository {
                 do {
                     let cevap = try JSONDecoder().decode(FoodCevap.self, from: data)
                     if let list = cevap.yemekler {
-                        print("Çekilen yemek listesi: \(list)")  // Veriyi kontrol et
+                        print("Çekilen yemek listesi: \(list)")  
                         self.foodList.onNext(list)
                     } else {
                         print("Veri boş!")

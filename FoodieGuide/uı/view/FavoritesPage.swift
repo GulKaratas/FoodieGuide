@@ -19,7 +19,7 @@ class FavoritesPage: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
           super.viewWillAppear(animated)
-          navigationItem.hidesBackButton = true // Geri butonunu gizle
+          navigationItem.hidesBackButton = true 
           
       }
     
