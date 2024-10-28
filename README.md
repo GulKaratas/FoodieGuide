@@ -1,6 +1,6 @@
 # 🍲 Foodie - Yemek Uygulaması
 
-Foodie, kullanıcıların çeşitli yemek tariflerine erişebileceği ve tarif detaylarını inceleyebileceği bir yemek uygulamasıdır. Uygulama, web servisinden yemekleri API ile çekerek kullanıcılara sunar. API işlemleri için **Alamofire**, görsellerin hızlı bir şekilde yüklenmesi için ise **Kingfisher** kütüphanesi kullanılmıştır. Uygulama geliştirilirken **Firebase Authentication** ile kullanıcı oturum yönetimi sağlanmış olup, **MVVM mimarisi**, **CollectionView** ve **TableView** kullanılarak uygulama yapısı oluşturulmuştur.
+Foodie, kullanıcıların çeşitli yemek tariflerine erişebileceği ve tarif detaylarını inceleyebileceği bir yemek uygulamasıdır. Uygulama, web servisinden yemekleri API ile çekerek kullanıcılara sunar. API işlemleri için **Alamofire**, görsellerin hızlı bir şekilde yüklenmesi için ise **Kingfisher** kütüphanesi kullanılmıştır. Uygulama geliştirilirken **Firebase Authentication** ile kullanıcı oturum yönetimi sağlanmış olup, **MVVM mimarisi**, **CollectionView** ve **TableView** kullanılarak uygulama yapısı oluşturulmuştur. Ayrıca, **Lottie** kullanılarak kullanıcı deneyimini artıran animasyonlar eklenmiştir.
 
 ## 📲 Özellikler
 
@@ -9,6 +9,7 @@ Foodie, kullanıcıların çeşitli yemek tariflerine erişebileceği ve tarif d
 - **Firebase Authentication**: Kullanıcı oturum açma ve kayıt işlemleri Firebase Authentication ile sağlanmaktadır.
 - **MVVM Mimarisi**: Daha temiz kod yapısı ve sürdürülebilirlik için MVVM mimarisi uygulanmıştır.
 - **CollectionView ve TableView Kullanımı**: Tarifler liste görünümünde veya koleksiyon görünümünde sergilenir.
+- **Lottie Animasyonları**: Kullanıcı arayüzünde etkileyici ve akıcı animasyonlar için Lottie kullanılmıştır, böylece kullanıcı deneyimi daha ilgi çekici hale gelmiştir.
 
 ## 🖼 Ekran Görüntüleri
 <p align="center">
